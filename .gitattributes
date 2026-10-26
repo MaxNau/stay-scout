@@ -1,0 +1,13 @@
+
+# Default text files to LF.
+* text=auto eol=lf
+
+# Windows scripts.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files currently relevant to the repository.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
