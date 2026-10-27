@@ -6,10 +6,17 @@
     <File Path="Directory.Packages.props" />
     <File Path="global.json" />
   </Folder>
+  <Folder Name="/tests/">
+    <File Path="tests/Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/tests/integration/">
+    <Project Path="tests/integration/StayScout.SearchService.IntegrationTests/StayScout.SearchService.IntegrationTests/StayScout.SearchService.IntegrationTests.csproj" Id="fb58e03e-a051-4f22-b61e-9aa879c1f031" />
+  </Folder>
   <Project Path="src/StayScout.Contracts.Grpc/StayScout.Contracts.Grpc.csproj" Id="d704d3b6-dd71-4fce-b646-f2ee07352bb9" />
   <Project Path="src/StayScout.Contracts/StayScout.Contracts.csproj" Id="4923ffe9-ce2b-49f5-84d9-a0a9c4a9977d" />
   <Project Path="src/StayScout.Gateway/StayScout.Gateway.csproj" Id="582078ff-896a-4ba8-9af2-6b4574d4d612" />
   <Project Path="src/StayScout.NotificationService/StayScout.NotificationService.csproj" Id="13df7b35-a369-4562-836a-19da21c43b45" />
+  <Project Path="src/StayScout.SearchService.Abstractions/StayScout.SearchService.Abstractions.csproj" Id="d8b121aa-a5b3-40ba-bf21-b963a0fbb3af" />
   <Project Path="src/StayScout.SearchService.Domain/StayScout.SearchService.Domain.csproj" Id="aa6d9d8f-d7fd-45bd-8a53-4971229351c6" />
   <Project Path="src/StayScout.SearchService.Infrastructure/StayScout.SearchService.Infrastructure.csproj" Id="fbcd8169-dd88-4419-b298-e25d0a8324a8" />
   <Project Path="src/StayScout.SearchService/StayScout.SearchService.csproj" Id="2da5d036-2639-4c44-a133-a7be403dae11" />

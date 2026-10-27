@@ -1,12 +1,15 @@
 using Grpc.Core;
 using StayScout.Contracts.Grpc;
+using StayScout.SearchService.Abstractions;
 using SearchGrpc = StayScout.Contracts.Grpc.SearchGrpcService;
 
 namespace StayScout.SearchService.Grpc;
 
-public sealed class SearchGrpcService : SearchGrpc.SearchGrpcServiceBase
+public sealed class SearchGrpcService(
+    ISearchApplicationService searchApplicationService)
+    : SearchGrpc.SearchGrpcServiceBase
 {
-    public override Task<StartSearchResponse> StartSearch(
+    public override async Task<StartSearchResponse> StartSearch(
         StartSearchRequest request,
         ServerCallContext context)
     {
@@ -16,13 +19,19 @@ public sealed class SearchGrpcService : SearchGrpc.SearchGrpcServiceBase
                 new Status(StatusCode.InvalidArgument, "Query is required."));
         }
 
-        // TODO: Start the search through the application service and return its ID.
+        var searchId = await searchApplicationService.StartSearchAsync(
+            request.Query,
+            context.CancellationToken);
 
-        throw new RpcException(
-            new Status(StatusCode.Unimplemented, "Not implemented."));
+        // TODO: Publish SearchRequested to the broker for asynchronous processing.
+
+        return new StartSearchResponse
+        {
+            SearchId = searchId.ToString()
+        };
     }
 
-    public override Task<GetSearchResponse> GetSearch(
+    public override async Task<GetSearchResponse> GetSearch(
         GetSearchRequest request,
         ServerCallContext context)
     {
@@ -32,10 +41,37 @@ public sealed class SearchGrpcService : SearchGrpc.SearchGrpcServiceBase
                 new Status(StatusCode.InvalidArgument, "Search ID is required."));
         }
 
-        // TODO: Retrieve the search through the application service and map its state and results.
-        // TODO: Return NotFound if the search does not exist.
+        if (!Guid.TryParse(request.SearchId, out var searchId))
+        {
+            throw new RpcException(
+                new Status(StatusCode.InvalidArgument, "Search ID must be a valid GUID."));
+        }
 
-        throw new RpcException(
-            new Status(StatusCode.Unimplemented, "Not implemented."));
+        var search = await searchApplicationService.GetSearchAsync(
+            searchId,
+            context.CancellationToken);
+
+        if (search is null)
+        {
+            throw new RpcException(
+                new Status(StatusCode.NotFound, "Search was not found."));
+        }
+
+        var response = new GetSearchResponse
+        {
+            SearchId = search.Id.ToString(),
+            IsCompleted = search.IsCompleted
+        };
+
+        response.Results.AddRange(search.Results.Select(result => new SearchResult
+        {
+            Id = result.Id,
+            Name = result.Name,
+            City = result.City,
+            Address = result.Address,
+            PricePerNight = (double)result.PricePerNight
+        }));
+
+        return response;
     }
 }
