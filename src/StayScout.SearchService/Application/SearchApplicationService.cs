@@ -5,7 +5,9 @@ using StayScout.SearchService.Mapping;
 
 namespace StayScout.SearchService.Application;
 
-public sealed class SearchApplicationService(ISearchDbAccess dbAccess)
+public sealed class SearchApplicationService(
+    ISearchDbAccess dbAccess,
+    ISearchRequestPublisher searchRequestPublisher)
     : ISearchApplicationService
 {
     public async Task<Guid> StartSearchAsync(
@@ -16,6 +18,10 @@ public sealed class SearchApplicationService(ISearchDbAccess dbAccess)
 
         var search = await dbAccess.CreateSearchAsync(
             query.Trim(),
+            cancellationToken);
+
+        await searchRequestPublisher.PublishAsync(
+            search.Id,
             cancellationToken);
 
         return search.Id;

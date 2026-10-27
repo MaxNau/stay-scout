@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <UserSecretsId>064deea1-5e6a-47db-b1ac-f31695ed0370</UserSecretsId>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" />
         <PackageReference Include="Grpc.Tools">

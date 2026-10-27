@@ -10,9 +10,14 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+
+        <PackageReference Include="MassTransit" />
+        <PackageReference Include="MassTransit.RabbitMQ" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\StayScout.Contracts\StayScout.Contracts.csproj" />
+        <ProjectReference Include="..\StayScout.SearchService.Abstractions\StayScout.SearchService.Abstractions.csproj" />
         <ProjectReference Include="..\StayScout.SearchService.Domain\StayScout.SearchService.Domain.csproj" />
     </ItemGroup>
 
