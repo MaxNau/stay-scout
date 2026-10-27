@@ -1,0 +1,37 @@
+
+syntax = "proto3";
+
+package stayscout.search;
+
+option csharp_namespace = "StayScout.Contracts.Grpc";
+
+service SearchGrpcService {
+  rpc StartSearch (StartSearchRequest) returns (StartSearchResponse);
+  rpc GetSearch (GetSearchRequest) returns (GetSearchResponse);
+}
+
+message StartSearchRequest {
+  string query = 1;
+}
+
+message StartSearchResponse {
+  string search_id = 1;
+}
+
+message GetSearchRequest {
+  string search_id = 1;
+}
+
+message GetSearchResponse {
+  string search_id = 1;
+  bool is_completed = 2;
+  repeated SearchResult results = 3;
+}
+
+message SearchResult {
+  string id = 1;
+  string name = 2;
+  string city = 3;
+  string address = 4;
+  double price_per_night = 5;
+}
