@@ -11,4 +11,8 @@ public interface ISearchApplicationService
     Task<SearchDetails?> GetSearchAsync(
         Guid searchId,
         CancellationToken cancellationToken);
+
+    Task ProcessSearchAsync(
+        Guid searchId,
+        CancellationToken cancellationToken);
 }

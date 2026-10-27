@@ -16,4 +16,11 @@ public interface ISearchDbAccess
     Task<IReadOnlyList<SearchResult>> GetResultsAsync(
         Guid searchId,
         CancellationToken cancellationToken);
+
+    Task SaveBatchAsync(
+        Guid searchId,
+        int batchNumber,
+        bool isLastBatch,
+        IReadOnlyList<SearchResult> results,
+        CancellationToken cancellationToken);
 }

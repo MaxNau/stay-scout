@@ -17,6 +17,8 @@ public static class DependencyInjection
 
         services.AddMassTransit(registration =>
         {
+            registration.AddConsumer<SearchRequestedConsumer>();
+
             registration.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(new Uri(rabbitMqUri));
@@ -30,12 +32,21 @@ public static class DependencyInjection
                 {
                     publish.ExchangeType = RabbitMQ.Client.ExchangeType.Fanout;
                 });
+
+                cfg.ReceiveEndpoint("search-requests", endpoint =>
+                {
+                    endpoint.ConfigureConsumer<SearchRequestedConsumer>(context);
+                });
             });
         });
 
         services.AddScoped<
             ISearchRequestPublisher,
             MassTransitSearchRequestPublisher>();
+
+        services.AddScoped<
+            ISearchCompletedPublisher,
+            MassTransitSearchCompletedPublisher>();
 
         return services;
     }
