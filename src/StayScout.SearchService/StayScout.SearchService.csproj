@@ -6,5 +6,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StayScout.Contracts.Grpc\StayScout.Contracts.Grpc.csproj" />
+  </ItemGroup>
 
 </Project>

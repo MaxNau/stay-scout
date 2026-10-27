@@ -6,4 +6,8 @@
         <PackageReference Include="Grpc.Tools" PrivateAssets="All" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="Protos/search.proto" />
+    </ItemGroup>
+
 </Project>
