@@ -1,5 +1,6 @@
 using MassTransit;
 using StayScout.Contracts;
+using StayScout.Contracts.Events;
 using StayScout.SearchService.Abstractions;
 using StayScout.SearchService.Infrastructure.Messaging;
 
@@ -31,6 +32,11 @@ public static class DependencyInjection
                 cfg.Publish<SearchRequested>(publish =>
                 {
                     publish.ExchangeType = RabbitMQ.Client.ExchangeType.Fanout;
+                });
+
+                cfg.Message<SearchCompleted>(message =>
+                {
+                    message.SetEntityName("search-completed");
                 });
 
                 cfg.ReceiveEndpoint("search-requests", endpoint =>

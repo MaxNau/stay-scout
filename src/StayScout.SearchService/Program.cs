@@ -5,6 +5,7 @@ using StayScout.SearchService.Abstractions;
 using StayScout.SearchService.Application;
 using StayScout.SearchService.Grpc;
 using StayScout.SearchService.Infrastructure.Persistence;
+using StayScout.SearchService.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,18 +21,11 @@ builder.Services.AddDbContext<SearchDbContext>(options =>
 builder.Services.AddScoped<ISearchDbAccess, SearchDbAccess>();
 builder.Services.AddScoped<ISearchApplicationService, SearchApplicationService>();
 
+builder.Services.AddSingleton<IHotelProvider, InMemoryHotelProvider>();
+
 builder.Services.AddSearchMessaging(builder.Configuration);
 
 builder.Services.AddGrpc();
-
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenLocalhost(5226, listenOptions =>
-    {
-        listenOptions.Protocols =
-            Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1;
-    });
-});
 
 var app = builder.Build();
 

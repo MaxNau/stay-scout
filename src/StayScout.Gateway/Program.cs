@@ -1,15 +1,34 @@
+
+using StayScout.Gateway.Grpc;
+using SearchGrpc = StayScout.Contracts.Grpc.SearchGrpcService;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+builder.Services.AddGrpc()
+    .AddJsonTranscoding();
+
+builder.Services.AddGrpcClient<SearchGrpc.SearchGrpcServiceClient>(options =>
+{
+    var address = builder.Configuration["SearchService:Address"]
+        ?? throw new InvalidOperationException(
+            "SearchService:Address is not configured.");
+
+    options.Address = new Uri(address);
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
+app.MapGrpcService<ApiGatewayGrpcService>();
+
+app.Run();

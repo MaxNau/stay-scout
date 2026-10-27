@@ -1,1 +1,13 @@
-@StayScout.Gateway_HostAddress = http://localhost:5166
+@baseUrl = https://localhost:7166
+
+### Start search
+# @name startSearch
+POST {{baseUrl}}/api/searches
+Content-Type: application/json
+
+{
+  "query": "Kyiv"
+}
+
+### Get search results
+GET {{baseUrl}}/api/searches/{{startSearch.response.body.$.searchId}}
