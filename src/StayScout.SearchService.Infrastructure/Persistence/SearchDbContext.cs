@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StayScout.SearchService.Domain;
 
-namespace StayScout.SearchService.Infrastructure;
+namespace StayScout.SearchService.Infrastructure.Persistence;
 
 public sealed class SearchDbContext(
     DbContextOptions<SearchDbContext> options) : DbContext(options)
