@@ -10,5 +10,6 @@
   <Project Path="src/StayScout.Contracts/StayScout.Contracts.csproj" Id="4923ffe9-ce2b-49f5-84d9-a0a9c4a9977d" />
   <Project Path="src/StayScout.Gateway/StayScout.Gateway.csproj" Id="582078ff-896a-4ba8-9af2-6b4574d4d612" />
   <Project Path="src/StayScout.NotificationService/StayScout.NotificationService.csproj" Id="13df7b35-a369-4562-836a-19da21c43b45" />
+  <Project Path="src/StayScout.SearchService.Domain/StayScout.SearchService.Domain.csproj" Id="aa6d9d8f-d7fd-45bd-8a53-4971229351c6" />
   <Project Path="src/StayScout.SearchService/StayScout.SearchService.csproj" Id="2da5d036-2639-4c44-a133-a7be403dae11" />
 </Solution>
