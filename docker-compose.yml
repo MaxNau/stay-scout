@@ -1,0 +1,76 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: stayscout
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d stayscout"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  housekeeping:
+    build:
+      context: .
+      dockerfile: src/StayScout.Housekeeping/Dockerfile
+    environment:
+      RabbitMq__Uri: amqp://guest:guest@rabbitmq:5672
+      ConnectionStrings__SearchDatabase: Host=postgres;Port=5432;Database=stayscout;Username=postgres;Password=postgres
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  search-service:
+    build:
+      context: .
+      dockerfile: src/StayScout.SearchService/Dockerfile
+    environment:
+      RabbitMq__Uri: amqp://guest:guest@rabbitmq:5672
+      ConnectionStrings__SearchDatabase: Host=postgres;Port=5432;Database=stayscout;Username=postgres;Password=postgres
+    depends_on:
+      housekeeping:
+        condition: service_completed_successfully
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: src/StayScout.NotificationService/Dockerfile
+    environment:
+      RabbitMq__Uri: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      housekeeping:
+        condition: service_completed_successfully
+
+  gateway:
+    build:
+      context: .
+      dockerfile: src/StayScout.Gateway/Dockerfile
+    environment:
+      SearchService__Address: http://search-service:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - search-service
+
+volumes:
+  postgres-data:
