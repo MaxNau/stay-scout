@@ -20,9 +20,14 @@ A fourth project, **Housekeeping**, is a one-shot job that applies the database 
 6. The Notification Service consumes the event and logs the search ID.
 7. `GET /api/searches/{id}` returns the results saved so far and an `isCompleted` flag. Poll it until `isCompleted` is `true`.
 
+
 ## Run it
 
 Requires Docker with Compose v2.
+
+### ⚠️ Required: Configure environment
+
+**You must copy `.env.example` to `.env` before starting Docker Compose.** Without this file, the services will start with an invalid configuration.
 
 ```bash
 docker compose up --build
@@ -82,7 +87,7 @@ The Search Service integration tests need Postgres and RabbitMQ running (see Loc
 
 ## Design decisions
 
-- **gRPC between Gateway and Search Service.** The Gateway is a normal ASP.NET Core Web API with controllers. It translates JSON to gRPC itself, because proxies such as YARP or Ocelot cannot do that translation.
+- **gRPC between Gateway and Search Service.** The Gateway is a normal ASP.NET Core Web API with minimal APIs.
 - **A broker inside the Search Service.** `SearchRequested` goes through RabbitMQ to a consumer in the same service. The message is durable, so a search survives a restart and resumes from the last saved batch (`CompletedBatches`) instead of starting over.
 - **Postgres with EF Core** stores searches and results. `SaveBatchAsync` is idempotent: it is a conditional update that only succeeds for the next expected batch, so duplicate or concurrent deliveries do not save a batch twice.
 - **Atomic completion.** The results, the batch counter and the `Completed` status are written in one transaction.
