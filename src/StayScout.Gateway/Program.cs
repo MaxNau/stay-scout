@@ -1,3 +1,5 @@
+using Grpc.Core;
+using Grpc.Net.Client.Configuration;
 using StayScout.Gateway.Endpoints;
 using StayScout.Gateway.ExceptionHandling;
 using SearchGrpc = StayScout.Contracts.Grpc.SearchGrpcService;
@@ -16,7 +18,38 @@ builder.Services.AddGrpcClient<SearchGrpc.SearchGrpcServiceClient>(options =>
             "SearchService:Address is not configured.");
 
     options.Address = new Uri(address);
-});
+})
+.ConfigureChannel(options =>
+   {
+       options.ServiceConfig = new ServiceConfig
+       {
+           MethodConfigs =
+        {
+            new MethodConfig
+            {
+                Names =
+                {
+                    new MethodName
+                    {
+                        Service = "stayscout.search.SearchGrpcService",
+                        Method = "GetSearch"
+                    }
+                },
+                RetryPolicy = new RetryPolicy
+                {
+                    MaxAttempts = 3,
+                    InitialBackoff = TimeSpan.FromMilliseconds(200),
+                    MaxBackoff = TimeSpan.FromSeconds(1),
+                    BackoffMultiplier = 2,
+                    RetryableStatusCodes =
+                    {
+                        StatusCode.Unavailable
+                    }
+                }
+            }
+        }
+       };
+   });
 
 var app = builder.Build();
 

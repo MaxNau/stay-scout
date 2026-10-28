@@ -53,6 +53,7 @@ public static class SearchEndpoints
             {
                 SearchId = id.ToString()
             },
+            deadline: DateTime.UtcNow.AddSeconds(3),
             cancellationToken: cancellationToken);
 
         return Results.Ok(SearchMapper.ToDto(response));
