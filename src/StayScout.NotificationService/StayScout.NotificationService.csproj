@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <UserSecretsId>dotnet-StayScout.NotificationService-dbee7827-4cf6-46a1-8941-95e5d47e2b3e</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>
