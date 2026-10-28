@@ -1,4 +1,6 @@
-@baseUrl = https://localhost:7166
+# Docker Compose: http://localhost:8080
+# IDE https profile: https://localhost:7166
+@baseUrl = http://localhost:8080
 
 ### Start search
 # @name startSearch
