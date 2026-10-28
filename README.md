@@ -99,5 +99,12 @@ This is not production-ready. Known gaps:
 - **One provider.** The real system would aggregate several providers and merge duplicate hotels across them (canonical hotel ID, one offer per provider).
 - **RabbitMQ was used for ease of running locally.**
 - **No auth, no HTTPS in containers, no pagination.** The Gateway is open and returns all results found so far.
-- **No ordering guarantee** for results between polls.
-- **Runtime and licensing.** The solution targets .NET 10 and MassTransit 9, which is commercially licensed.
+- **Incremental results.** Results may change between polls as additional batches are processed.
+- **Distributed error handling.** Define consistent error handling across the Gateway, Search Service, RabbitMQ consumers and Notification Service, including how failures are propagated and exposed to clients.
+- **Application-level exceptions.** Introduce appropriate application exceptions and consistent mapping of application and infrastructure failures to API responses.
+- **Gateway validation.** Add request validation and consistent handling of invalid input.
+- **Configuration.** Improve configuration binding, validation and startup-time checks across services.
+- **Solution organization.** Review project boundaries and split responsibilities into separate projects where appropriate; several responsibilities currently reside in the same projects.
+- **Retries and resilience.** Define retry policies and handling of transient failures for database operations, broker interactions and downstream calls.
+- **Atomicity and idempotency.** Review transaction boundaries and duplicate-processing behavior across the complete workflow, not just batch persistence.
+- **Testing.** Expand unit, integration and end-to-end coverage across the solution, including application services, mappers, validation, error handling, batch processing, retries, concurrency and recovery after failures.
