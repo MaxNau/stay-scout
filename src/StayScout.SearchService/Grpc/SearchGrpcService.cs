@@ -47,13 +47,8 @@ public sealed class SearchGrpcService(
 
         var search = await searchApplicationService.GetSearchAsync(
             searchId,
-            context.CancellationToken);
-
-        if (search is null)
-        {
-            throw new RpcException(
+            context.CancellationToken) ?? throw new RpcException(
                 new Status(StatusCode.NotFound, "Search was not found."));
-        }
 
         var response = new GetSearchResponse
         {

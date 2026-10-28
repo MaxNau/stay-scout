@@ -5,21 +5,9 @@ package stayscout.search;
 
 option csharp_namespace = "StayScout.Contracts.Grpc";
 
-import "google/api/annotations.proto";
-
 service SearchGrpcService {
-  rpc StartSearch (StartSearchRequest) returns (StartSearchResponse) {
-    option (google.api.http) = {
-      post: "/api/searches"
-      body: "*"
-    };
-  }
-
-  rpc GetSearch (GetSearchRequest) returns (GetSearchResponse) {
-    option (google.api.http) = {
-      get: "/api/searches/{search_id}"
-    };
-  }
+  rpc StartSearch (StartSearchRequest) returns (StartSearchResponse);
+  rpc GetSearch (GetSearchRequest) returns (GetSearchResponse);
 }
 
 message StartSearchRequest {

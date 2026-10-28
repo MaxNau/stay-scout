@@ -1,14 +1,13 @@
-
-using StayScout.Gateway.Grpc;
+using StayScout.Gateway.Endpoints;
+using StayScout.Gateway.ExceptionHandling;
 using SearchGrpc = StayScout.Contracts.Grpc.SearchGrpcService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-
-builder.Services.AddGrpc()
-    .AddJsonTranscoding();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GrpcExceptionHandler>();
+builder.Services.AddExceptionHandler<UnhandledExceptionHandler>();
 
 builder.Services.AddGrpcClient<SearchGrpc.SearchGrpcServiceClient>(options =>
 {
@@ -21,6 +20,8 @@ builder.Services.AddGrpcClient<SearchGrpc.SearchGrpcServiceClient>(options =>
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -28,7 +29,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapControllers();
-app.MapGrpcService<ApiGatewayGrpcService>();
+app.MapSearchEndpoints();
 
 app.Run();

@@ -1,11 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <IncludeHttpRuleProtos>true</IncludeHttpRuleProtos>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Google.Api.CommonProtos" />
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc.Core.Api" />
         <PackageReference Include="Grpc.Tools" PrivateAssets="All" />
