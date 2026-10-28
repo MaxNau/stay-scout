@@ -21,6 +21,9 @@
     <Project Path="tests/integration/StayScout.EndToEndTests/StayScout.EndToEndTests/StayScout.EndToEndTests.csproj" Id="dd320866-e7ca-4ab4-a1bc-62f868d98be1" />
     <Project Path="tests/integration/StayScout.SearchService.IntegrationTests/StayScout.SearchService.IntegrationTests/StayScout.SearchService.IntegrationTests.csproj" Id="fb58e03e-a051-4f22-b61e-9aa879c1f031" />
   </Folder>
+  <Folder Name="/tests/unit/">
+    <Project Path="tests/unit/StayScout.SearchService.Tests/StayScout.SearchService.Tests.csproj" Id="94595488-dc53-479b-9f42-79d5dbc97a6a" />
+  </Folder>
   <Project Path="src/StayScout.Contracts.Grpc/StayScout.Contracts.Grpc.csproj" Id="d704d3b6-dd71-4fce-b646-f2ee07352bb9" />
   <Project Path="src/StayScout.Contracts/StayScout.Contracts.csproj" Id="4923ffe9-ce2b-49f5-84d9-a0a9c4a9977d" />
   <Project Path="src/StayScout.SearchService.Abstractions/StayScout.SearchService.Abstractions.csproj" Id="d8b121aa-a5b3-40ba-bf21-b963a0fbb3af" />
