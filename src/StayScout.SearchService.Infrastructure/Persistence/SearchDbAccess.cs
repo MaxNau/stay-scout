@@ -45,6 +45,8 @@ public sealed class SearchDbAccess(SearchDbContext dbContext) : ISearchDbAccess
         await dbContext.SearchResults
             .AsNoTracking()
             .Where(result => result.SearchId == searchId)
+            .OrderBy(result => result.ProviderResultId)
+            .ThenBy(result => result.Id)
             .ToListAsync(cancellationToken);
 
     public async Task SaveBatchAsync(
