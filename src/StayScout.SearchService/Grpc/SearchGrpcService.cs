@@ -23,8 +23,6 @@ public sealed class SearchGrpcService(
             request.Query,
             context.CancellationToken);
 
-        // TODO: Publish SearchRequested to the broker for asynchronous processing.
-
         return new StartSearchResponse
         {
             SearchId = searchId.ToString()
