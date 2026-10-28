@@ -7,10 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MassTransit" />
+        <PackageReference Include="MassTransit.RabbitMQ" />
         <PackageReference Include="Microsoft.Extensions.Hosting" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\StayScout.SearchService.Infrastructure\StayScout.SearchService.Infrastructure.csproj" />
+        <ProjectReference Include="..\StayScout.Contracts\StayScout.Contracts.csproj" />
     </ItemGroup>
 </Project>

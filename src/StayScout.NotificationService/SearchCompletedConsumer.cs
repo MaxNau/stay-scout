@@ -1,5 +1,4 @@
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using StayScout.Contracts.Events;
 
 namespace StayScout.SearchService.Infrastructure.Messaging;
