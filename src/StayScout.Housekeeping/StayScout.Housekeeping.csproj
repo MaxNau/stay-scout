@@ -8,4 +8,8 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" />
         <PackageReference Include="RabbitMQ.Client" />
     </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\StayScout.SearchService.Infrastructure\StayScout.SearchService.Infrastructure.csproj" />
+    </ItemGroup>
 </Project>
